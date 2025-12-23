@@ -1,0 +1,7 @@
+{
+  "name": "Christmas Tree",
+  "description": "A magical 3D Christmas tree controlled by hand gestures. Use a fist to form the tree, open hand to scatter, and pinch to inspect photos.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
