@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState, useCallback, Suspense } from 'react';
-import { FilesetResolver, HandLandmarker } from '@mediapipe/tasks-vision';
 import { AppState, GestureType, HandLandmark } from './types';
 import { DEFAULT_PHOTOS } from './constants';
 import { detectGesture } from './utils/gestureLogic';
@@ -88,6 +87,10 @@ const App: React.FC = () => {
       setLoadingProgress(5);
 
       try {
+        addLog("Loading Vision Library...", 'info');
+        // Dynamic import to prevent top-level await/import blocking
+        const { FilesetResolver, HandLandmarker } = await import('@mediapipe/tasks-vision');
+
         addLog("Loading Vision Tasks (WASM)...", 'info');
         const vision = await FilesetResolver.forVisionTasks(
           "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
@@ -110,7 +113,6 @@ const App: React.FC = () => {
       } catch (error: any) {
         console.error("Error initializing MediaPipe:", error);
         addLog(`Init Failed: ${error.message || error}`, 'error');
-        // Do not turn off loading on fatal error so user sees the log
       }
     };
 
